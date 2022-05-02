@@ -20,8 +20,11 @@ def login_post():
     
     # check if the actually exists
     # take the passwword and hash it and compare it with the hashed password already saved
-    if not user or not check_password_hash(user.password, password)
-    
+    if not user or not check_password_hash(user.password, password):
+        flash("Please check your login details and try again.")
+        return redirect(url_for('auth.login'))
+        
+    # If the above check passes, it means the user has the right credentials
     return redirect(url_for('main.profile'))
 
 @auth.route('/signup')

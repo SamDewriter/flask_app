@@ -1,6 +1,6 @@
 from crypt import methods
 from flask import Blueprint, render_template, redirect, url_for, request
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash, flash
 from .models import User
 from . import db
 
@@ -24,6 +24,7 @@ def signup():
     user = User.query.filter(email=email).first() # Check if the email already exists in the database
     
     if user:
+        flash('Email address already exists')
         return redirect(url_for('auth.signup'))
     
     # Create a new user with the form and hash the password

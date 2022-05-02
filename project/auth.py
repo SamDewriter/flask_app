@@ -1,6 +1,6 @@
 from crypt import methods
-from flask import Blueprint, render_template, redirect, url_for, request
-from werkzeug.security import generate_password_hash, check_password_hash, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
 
@@ -15,13 +15,13 @@ def signup():
     return render_template('signup.html')
 
 @auth.route('/signup', methods=['POST'])
-def signup():
+def signup_post():
     # code to validate and add user to the database
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
     
-    user = User.query.filter(email=email).first() # Check if the email already exists in the database
+    user = User.query.filter_by(email=email).first() # Check if the email already exists in the database
     
     if user:
         flash('Email address already exists')

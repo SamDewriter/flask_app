@@ -1,5 +1,6 @@
 from crypt import methods
 from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask_login import login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
@@ -25,6 +26,7 @@ def login_post():
         return redirect(url_for('auth.login'))
         
     # If the above check passes, it means the user has the right credentials
+    login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
 
 @auth.route('/signup')
@@ -54,6 +56,7 @@ def signup_post():
     return redirect(url_for('auth.login'))
 
 @auth.route('/logout')
+@login_required
 def logout():
-    return 'Logout'
+    return redirect(url_for('main.index'))
 
